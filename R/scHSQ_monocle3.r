@@ -89,7 +89,7 @@ setMethod("new_scHSQ", c(in_CDS="cell_data_set", ref_species="character", mdat_l
 		#checks if mdat_lab_spec is valid (proper label in pData)
 		tryCatch(
 			expr = {
-				if(! mdat_lab_spec %in% colnames(pData(in_CDS))) stop("mdat_lab_spec not found in pData(in_CDS)")
+				if(! mdat_lab_spec %in% colnames(monocle3::pData(in_CDS))) stop("mdat_lab_spec not found in pData(in_CDS)")
 				this_scHSQ_obj@spp_labs <- mdat_lab_spec
 			},
 			error = function(e){
@@ -102,7 +102,7 @@ setMethod("new_scHSQ", c(in_CDS="cell_data_set", ref_species="character", mdat_l
 		#checks if mdat_lab_ct is valid (proper label in pData)
 		tryCatch(
 			expr = {
-				if(! mdat_lab_ct %in% colnames(pData(in_CDS))) stop("mdat_lab_ct not found in pData(in_CDS)")
+				if(! mdat_lab_ct %in% colnames(monocle3::pData(in_CDS))) stop("mdat_lab_ct not found in pData(in_CDS)")
 				this_scHSQ_obj@celltype_labs <- mdat_lab_ct
 			},
 			error = function(e){
@@ -141,9 +141,9 @@ setMethod("new_scHSQ", c(in_CDS="cell_data_set", ref_species="character", mdat_l
 		#checks if ref_species is in mdat_lab_spec
 		tryCatch(
 			expr = {
-				if(!ref_species %in% as.character(pData(in_CDS)[,this_scHSQ_obj@spp_labs])) stop("ref_species not in pData(in_CDS)[, spp_labs]")
+				if(!ref_species %in% as.character(monocle3::pData(in_CDS)[,this_scHSQ_obj@spp_labs])) stop("ref_species not in pData(in_CDS)[, spp_labs]")
 				
-				ref_spec_idx <- which(as.character(pData(in_CDS)[,this_scHSQ_obj@spp_labs]) == ref_species)
+				ref_spec_idx <- which(as.character(monocle3::pData(in_CDS)[,this_scHSQ_obj@spp_labs]) == ref_species)
 				# message(paste("number of reference species cells: ", length(ref_spec_idx), sep=""))
 				
 				this_scHSQ_obj@ref_spp <- ref_species
@@ -160,7 +160,7 @@ setMethod("new_scHSQ", c(in_CDS="cell_data_set", ref_species="character", mdat_l
 		#checks if reference species has cell type labels
 		tryCatch(
 			expr = {
-				if(length(levels(as.factor(as.character(pData(in_CDS)[this_scHSQ_obj@idx_ref, mdat_lab_ct])))) <= 1) stop("Only one annotated cell type in reference species")
+				if(length(levels(as.factor(as.character(monocle3::pData(in_CDS)[this_scHSQ_obj@idx_ref, mdat_lab_ct])))) <= 1) stop("Only one annotated cell type in reference species")
 			},
 			error = function(e){
 				message(e)
@@ -172,7 +172,7 @@ setMethod("new_scHSQ", c(in_CDS="cell_data_set", ref_species="character", mdat_l
 		#calculate number of species
 		tryCatch(
 			expr = {
-				this_scHSQ_obj@n_species <- length(levels(as.factor(as.character(pData(in_CDS)[,mdat_lab_spec]))))
+				this_scHSQ_obj@n_species <- length(levels(as.factor(as.character(monocle3::pData(in_CDS)[,mdat_lab_spec]))))
 				if(this_scHSQ_obj@n_species <= 1) stop("Only one annotated species in data set")
 			},
 			error = function(e){
@@ -185,7 +185,7 @@ setMethod("new_scHSQ", c(in_CDS="cell_data_set", ref_species="character", mdat_l
 		#calculate number of cell types
 		tryCatch(
 			expr = {
-				this_ctlabs <- data.frame(idx=this_scHSQ_obj@idx_ref, ct=pData(in_CDS)[this_scHSQ_obj@idx_ref, as.character(this_scHSQ_obj@celltype_labs)])
+				this_ctlabs <- data.frame(idx=this_scHSQ_obj@idx_ref, ct=monocle3::pData(in_CDS)[this_scHSQ_obj@idx_ref, as.character(this_scHSQ_obj@celltype_labs)])
 				
 				# remove_idx <- which(this_ctlabs[,2] %in% c(NA, "unknown", "unassigned"))
 				# this_ctlabs <- this_ctlabs[-remove_idx,]
@@ -301,13 +301,13 @@ setMethod("setReducedCDS", c(in_scHSQ="scHSQ", in_CDS="cell_data_set"),
 #getFullPData	
 setMethod("getFullPData", c(in_scHSQ="scHSQ"),
 	function(in_scHSQ){
-		return(pData(in_scHSQ@fullCDS))
+		return(monocle3::pData(in_scHSQ@fullCDS))
 })
 
 #getFullExprs	
 setMethod("getFullExprs", c(in_scHSQ="scHSQ"),
 	function(in_scHSQ){
-		return(exprs(in_scHSQ@fullCDS))
+		return(monocle3::exprs(in_scHSQ@fullCDS))
 })
 
 #getRefIdx	
@@ -326,7 +326,7 @@ setMethod("setRefIdx", c(in_scHSQ="scHSQ", idx="numeric"),
 #getRefSpecExprs
 setMethod("getRefSpecExprs", c(in_scHSQ="scHSQ"),
 	function(in_scHSQ){
-		return(exprs(getFullCDS(in_scHSQ))[, in_scHSQ@idx_ref])
+		return(monocle3::exprs(getFullCDS(in_scHSQ))[, in_scHSQ@idx_ref])
 })
 
 #getSppLabs	
@@ -347,10 +347,10 @@ setMethod("setCellType", c(in_scHSQ="scHSQ", ct_labels="character", ct_field_new
 	function(in_scHSQ, ct_labels, ct_field_new){
 		new_CDS <- getReducedCDS(in_scHSQ)
 		
-		new_pData <- cbind(pData(new_CDS), ct_labels)
+		new_pData <- cbind(monocle3::pData(new_CDS), ct_labels)
 		names(new_pData)[ncol(new_pData)] <- ct_field_new
 		
-		pData(new_CDS) <- new_pData
+		monocle3::pData(new_CDS) <- new_pData
 		
 		in_scHSQ <- setReducedCDS(in_scHSQ, new_CDS) 
 
@@ -360,13 +360,13 @@ setMethod("setCellType", c(in_scHSQ="scHSQ", ct_labels="character", ct_field_new
 #getRefCellType	
 setMethod("getRefCellType", c(in_scHSQ="scHSQ"),
 	function(in_scHSQ){
-		return(pData(getFullCDS(in_scHSQ))[getRefIdx(in_scHSQ), getCTLabs(in_scHSQ)])
+		return(monocle3::pData(getFullCDS(in_scHSQ))[getRefIdx(in_scHSQ), getCTLabs(in_scHSQ)])
 })
 
 #getSpp	
 setMethod("getSpp", c(in_scHSQ="scHSQ"),
 	function(in_scHSQ){
-		return(pData(getFullCDS(in_scHSQ))[, getSppLabs(in_scHSQ)])
+		return(monocle3::pData(getFullCDS(in_scHSQ))[, getSppLabs(in_scHSQ)])
 })
 
 #setPThresh	
@@ -448,10 +448,10 @@ setMethod("remapCTAssign", c(in_scHSQ="scHSQ", ct_map="data.frame"),
 #ct_map is assumed to have first column as list of original cell type labels, second column as new labels
 #colnames of ct_map must correlate to labels in pData
 	function(in_scHSQ, ct_map){
-		ct_assign_old <- pData(getReducedCDS(in_scHSQ))[,colnames(ct_map)[1]]
+		ct_assign_old <- monocle3::pData(getReducedCDS(in_scHSQ))[,colnames(ct_map)[1]]
 		ct_assign_new <- ct_assign_old
 
-		if(colnames(ct_map)[2] %in% colnames(pData(getReducedCDS(in_scHSQ)))){
+		if(colnames(ct_map)[2] %in% colnames(monocle3::pData(getReducedCDS(in_scHSQ)))){
 			message("Name for reassigned labels already present in input scHSQ object")
 			message("Returning input")
 			return(in_scHSQ)
@@ -513,7 +513,7 @@ setMethod("applyMarkGenes", c(in_scHSQ="scHSQ"),
 		
 		cds_comb_diffgene <- new_cell_data_set(getFullExprs(in_scHSQ)[getMarkGenes(in_scHSQ),], cell_metadata=colData(getFullCDS(in_scHSQ)), gene_metadata=rd_share[getMarkGenes(in_scHSQ),])
 		
-		if(new_clu %in% colnames(pData(cds_comb_diffgene))){
+		if(new_clu %in% colnames(monocle3::pData(cds_comb_diffgene))){
 			warning("Invalid new_clu label: already exists in pData")
 			warning("Nothing to do. Returning unprocessed input.")
 			return(in_scHSQ)
@@ -525,7 +525,7 @@ setMethod("applyMarkGenes", c(in_scHSQ="scHSQ"),
 		cds_comb_diffgene <- cluster_cells(cds_comb_diffgene, resolution=leiden_res)
 		
 		clu_umap <- cds_comb_diffgene@clusters$UMAP$clusters
-		pData(cds_comb_diffgene)[,new_clu] <- as.character(clu_umap)
+		monocle3::pData(cds_comb_diffgene)[,new_clu] <- as.character(clu_umap)
 		colData(cds_comb_diffgene)[,new_clu] <- as.character(clu_umap)
 		
 		message(paste("New cluster ID: ", new_clu, sep=""))
@@ -543,13 +543,13 @@ setMethod("reclusterCDS", c(in_scHSQ="scHSQ"),
 		
 		clu_umap <- cds_comb_diffgene@clusters$UMAP$clusters
 		
-		if(new_clu %in% colnames(pData(cds_comb_diffgene))){
+		if(new_clu %in% colnames(monocle3::pData(cds_comb_diffgene))){
 			warning("Invalid new_clu label: already exists in pData")
 			warning("Nothing to do. Returning unprocessed input.")
 			return(in_scHSQ)
 		}
 		
-		pData(cds_comb_diffgene)[,new_clu] <- as.character(clu_umap)
+		monocle3::pData(cds_comb_diffgene)[,new_clu] <- as.character(clu_umap)
 		colData(cds_comb_diffgene)[,new_clu] <- as.character(clu_umap)
 		
 		message(paste("New cluster ID: ", new_clu, sep=""))
@@ -595,7 +595,7 @@ setMethod("plotGeneExprs", c(in_scHSQ="scHSQ", gene="character"),
 		if(!is.null(species)) this_idx <- which(this_spp == species)
 
 		this_redCDS <- getReducedCDS(in_scHSQ)[, this_idx]
-		this_redExprs <- exprs(this_redCDS)
+		this_redExprs <- monocle3::exprs(this_redCDS)
 		this_fullExprs <- getFullExprs(in_scHSQ)[, this_idx]
 		
 		if(gene %in% getMarkGenes(in_scHSQ)){
