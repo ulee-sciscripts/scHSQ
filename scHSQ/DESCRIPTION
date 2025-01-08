@@ -1,0 +1,17 @@
+Package: scHSQ
+Type: Package
+Title: Indentification of evolutionarily conserved genes enriched for
+        cell-type information
+Version: 1.0.0
+Date: 2025-01-02
+Author: UnJin Lee
+Maintainer: UnJin Lee <ulee@rockefeller.edu>
+Depends: R (>= 3.5.0), methods
+Imports: Biobase, monocle3, ggplot2
+Suggests:
+Description: Implementation of HSQ criteria identification using ANOVA F-statistics, allowing for 
+	projection of evolutionarily divergent single cell-RNA-Seq data on unified manifolds.
+biocViews:
+License: GPL version 3
+NeedsCompilation: no
+Packaged: 2025-01-07 23:11:16 UTC; ulee

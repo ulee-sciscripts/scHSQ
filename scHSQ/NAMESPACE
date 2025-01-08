@@ -1,0 +1,29 @@
+exportClasses(scHSQ)
+exportMethods(new_scHSQ, genMarkGenes, getMarkGenes, getFullCDS, getReducedCDS,
+	setReducedCDS, getFullPData, getFullExprs, getRefIdx, setRefIdx, getRefSpecExprs,
+	getSppLabs, getCTLabs, setCellType, getRefCellType, getSpp, setPThresh,
+	findPercentile, setANOVAStats, getANOVAStats, calcANOVA, remapCTAssign, 
+	calcANOVACor, plotANOVA, applyMarkGenes, reclusterCDS, plotCTAssign,
+	plotGeneExprs)
+
+## Needed from Biobase
+importFrom(Biobase,exprs)
+importFrom(Biobase,'exprs<-')
+importFrom(Biobase,pData)
+
+## Needed from monocle3
+importFrom(monocle3,new_cell_data_set)
+importFrom(monocle3,preprocess_cds)
+importFrom(monocle3,align_cds)
+importFrom(monocle3,reduce_dimension)
+importFrom(monocle3,cluster_cells)
+importFrom(monocle3,plot_cells)
+
+## Needed from ggplot2
+importFrom(ggplot2,ggtitle)
+
+## Regular stuff
+importFrom("grDevices", "col2rgb", "hcl")
+importFrom("graphics", "abline", "mtext")
+importFrom("methods", "new")
+importFrom("stats", "cor", "oneway.test")
