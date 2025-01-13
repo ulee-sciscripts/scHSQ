@@ -31,7 +31,7 @@ remotes::install_github("ulee-sciscripts/scHSQ/scHSQ")
 
 # Docker image
 
-A dockerfile is provided in this package for installation. A docker image containing R and all dependencies is hosted on dockerhub as well.
+A dockerfile is provided in this package for installation. A docker image containing R and all dependencies is hosted on [dockerhub](https://hub.docker.com/r/avianalter/schsq) as well.
 
 ```bash
 docker pull avianalter/schsq
