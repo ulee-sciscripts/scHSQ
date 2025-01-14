@@ -6,6 +6,8 @@ To tackle this issue, genes passing the HSQ criteria have high cell type-specifi
 
 Using this package, one can identify genes passing the HSQ criteria, project cells onto a single cross-species manifold (UMAP), perform clustering, transfer cell type labels from a reference species onto other species, and visualize gene expression on the cross-species UMAP.
 
+Instructions for running the software package on a sample data set is found in the [vignette](https://github.com/ulee-sciscripts/scHSQ/blob/main/scHSQ/inst/doc/scHSQ.pdf). You may also find the [manual](https://github.com/ulee-sciscripts/scHSQ/blob/main/scHSQ/vignettes/scHSQ-manual.pdf) to be helpful.
+
 ## Installation
 
 Note: R, Bioconductor, monocle3, and ggplot2 must be installed before using scHSQ.
