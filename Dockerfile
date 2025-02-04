@@ -18,6 +18,8 @@ RUN Rscript -e 'BiocManager::install(c("BiocGenerics", "DelayedArray", "DelayedM
 RUN apt-get install -y cmake libpq5 libpq-dev
 RUN apt-get install -y libgdal-dev libudunits2-dev
 RUN apt-get install -y libharfbuzz-dev libfribidi-dev
+RUN Rscript -e 'BiocManager::install("HDF5Array", upgrade="always")'
 RUN Rscript -e 'remotes::install_github("cole-trapnell-lab/monocle3")'
 RUN Rscript -e 'BiocManager::install(c("org.Hs.eg.db", "org.Mm.eg.db"))'
-RUN Rscript -e 'remotes::install_github("ulee-sciscripts/scHSQ/scHSQ")'
+RUN Rscript -e 'remotes::install_github("ulee-sciscripts/scHSQ/scHSQ", upgrade="always")'
+
