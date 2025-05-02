@@ -38,3 +38,7 @@ A dockerfile is provided in this package for installation. A docker image contai
 ```bash
 docker pull avianalter/schsq:1.0.0
 ```
+
+
+Please cite:
+U. Lee, C. Li, C.B. Langer, N. Svetec, & L. Zhao, Comparative single-cell analysis of transcriptional bursting reveals the role of genome organization in de novo transcript origination, Proc. Natl. Acad. Sci. U.S.A. 122 (18) e2425618122, https://doi.org/10.1073/pnas.2425618122 (2025).
